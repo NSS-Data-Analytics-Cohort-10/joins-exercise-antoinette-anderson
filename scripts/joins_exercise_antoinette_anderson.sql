@@ -74,3 +74,19 @@ WHERE headquarters NOT LIKE '%CA%'
 
 
 -- 7. Which have a higher average rating, movies which are over two hours long or movies which are under two hours?
+SELECT AVG(rating.imdb_rating) AS avg_rating, SUM(specs.length_in_min) AS film_length
+FROM rating
+LEFT JOIN specs
+ON rating.movie_id = specs.movie_id
+WHERE specs.length_in_min > 120 
+ORDER BY avg_rating 
+
+SELECT AVG(rating.imdb_rating) AS avg_rating, SUM(specs.length_in_min) AS film_length
+FROM rating
+LEFT JOIN specs
+ON rating.movie_id = specs.movie_id
+WHERE specs.length_in_min < 120 
+ORDER BY avg_rating 
+
+-- The highest average rating are with movies greater than 2 hours.
+
