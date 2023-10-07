@@ -46,13 +46,31 @@ ORDER BY title_count DESC;
 
 -- 5. Write a query that returns the five distributors with the highest average movie budget.
 
-SELECT AVG(film_budget) AS avg_budget, distributors.company_name
+SELECT ROUND(AVG(film_budget)) AS avg_budget, distributors.company_name
 FROM revenue
 CROSS JOIN distributors
 GROUP BY company_name
 ORDER BY avg_budget DESC
 LIMIT 5
 
+
 -- 6. How many movies in the dataset are distributed by a company which is not headquartered in California? Which of these movies has the highest imdb rating?
+SELECT COUNT(film_title) AS title_count, distributors.company_name, distributors.headquarters
+FROM specs
+CROSS JOIN distributors
+WHERE headquarters NOT LIKE '%CA%'
+GROUP BY distributors.headquarters, distributors.company_name
+
+-- IFC in New York has 430
+-- Vestron Pictures in Chicago has 430
+
+SELECT DISTINCT film_title, distributors.company_name, imdb_rating
+FROM specs
+CROSS JOIN distributors
+CROSS JOIN rating
+WHERE headquarters NOT LIKE '%CA%' 
+     AND imdb_rating >=9.0 
+	  
+
 
 -- 7. Which have a higher average rating, movies which are over two hours long or movies which are under two hours?
